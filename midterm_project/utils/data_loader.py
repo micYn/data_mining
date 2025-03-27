@@ -1,8 +1,15 @@
 import numpy as np
 import pandas as pd
-def load_dataset(train_path, test_path):
-    ''' Loads a dataset from csv files '''
 
+def load_dataset(train_path, test_path):
+    ''' 
+    Loads a dataset from csv files 
+    Input: training, testing data csv file path 
+    Output: X_train: training feature
+            y_train: training labels
+            X_test:  testing feature
+            y_test:  testing labels
+    '''
     train_df = pd.read_csv(train_path)
     test_df = pd.read_csv(test_path)
     

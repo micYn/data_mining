@@ -10,16 +10,15 @@ class KNearestNeighbor(object):
         self.y_train = y
     
     def predict(self, X, k=1):
-        distances = self.compute_distances_no_loops(X)
+        distances = self.compute_distances(X)
         return self.predict_labels(distances, k=k)
 
-    def compute_distances_no_loops(self, X):
+    def compute_distances(self, X):
         num_test = X.shape[0]
         num_train = self.X_train.shape[0]
         distances = np.zeros((num_test, num_train))
 
-        distances = np.sqrt( np.sum(X**2, axis=1).reshape(num_test, 1) + np.sum(self.X_train**2, axis=1) - 2*X @ self.X_train.T)
-
+        distances = np.sqrt(np.sum(X**2, axis=1).reshape(num_test, 1) + np.sum(self.X_train**2, axis=1) - 2*X @ self.X_train.T)
         return distances
 
     def predict_labels(self, distances, k=1):
@@ -27,7 +26,6 @@ class KNearestNeighbor(object):
         y_pred = np.zeros(num_test)
         for i in range(num_test):
             closest_y = []
-
             closest_y = self.y_train[np.argsort(distances[i])[:k]]
 
             num_classes = np.max(closest_y)+1
@@ -37,5 +35,5 @@ class KNearestNeighbor(object):
                 classes_vote_cnt[class_vote]+=1
 
             y_pred[i] = np.argmax(classes_vote_cnt)     # Note that argmax will resolve ties
-
+            
         return y_pred
